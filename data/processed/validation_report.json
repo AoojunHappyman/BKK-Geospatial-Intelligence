@@ -1,0 +1,52 @@
+{
+  "reference_period": "2025-12",
+  "district_count": 50,
+  "age_row_count": 5100,
+  "age_exclusion_row_count": 200,
+  "bangkok_control": {
+    "population_male": 2526272,
+    "population_female": 2896296,
+    "population_total": 5422568,
+    "registered_houses": 3356358
+  },
+  "population_age_60_plus": 1305293,
+  "age_classified_thai_population": 5280172,
+  "population_outside_age_series": 142396,
+  "validations": {
+    "district_codes_complete": true,
+    "names_match": true,
+    "sex_totals_match": true,
+    "district_sums_match_province": true,
+    "age_values_match_population_totals": true,
+    "all_age_columns_match_province": true,
+    "source_checksums_match": true,
+    "sqlite_integrity_and_foreign_keys": true
+  },
+  "geometry": {
+    "source_crs": "EPSG:32647",
+    "output_crs": "EPSG:4326",
+    "valid_geometries": 50,
+    "geometry_repairs": [],
+    "name_corrections": [
+      {
+        "district_code": "1024",
+        "source_name": "ราษฏร์บูรณะ",
+        "canonical_name": "ราษฎร์บูรณะ",
+        "reason": "Exact code match; source boundary misspells ราษฎร์บูรณะ"
+      }
+    ],
+    "sum_area_km2": 1583.2631016141934,
+    "union_area_km2": 1583.263101614192,
+    "overlap_area_m2": 1.430511474609375e-06,
+    "boundary_resource_date": "2021-03-09",
+    "boundary_effective_date": "not specified by source metadata"
+  },
+  "limitations": [
+    "Population is registered population, not resident/daytime population.",
+    "Single-year age series covers Thai nationals in house registration as defined by DOPA; four separately reported categories are retained.",
+    "60+ share denominator is age-classified Thai population, not all registered population.",
+    "Boundary resource date is 2021-03-09; effective boundary date is not specified. No current legal-boundary verification was performed.",
+    "Area is calculated from source polygons in EPSG:32647, not an official statistical area.",
+    "Source shapefile demographic attributes are ignored because their period is unspecified."
+  ]
+}

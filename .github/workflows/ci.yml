@@ -1,0 +1,45 @@
+name: Validate platform
+on: [push, pull_request]
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:17-3.5
+        env:
+          POSTGRES_DB: bkk
+          POSTGRES_USER: bkk
+          POSTGRES_PASSWORD: ci-test-only
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U bkk -d bkk"
+          --health-interval 5s --health-timeout 5s --health-retries 15
+    env:
+      DATABASE_URL: postgresql://bkk:ci-test-only@localhost:5432/bkk
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: pip install -r data-pipeline/requirements.txt
+      - run: python data-pipeline/pipeline.py
+      - run: python scripts/test_backend.py
+      - run: npm ci && npm run build
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: |
+          python scripts/run_api.py > /tmp/bkk-api.log 2>&1 &
+          npm --prefix frontend run dev > /tmp/bkk-web.log 2>&1 &
+          for n in $(seq 1 30); do curl -fsS http://127.0.0.1:5173/ && break; sleep 2; done
+          npm --prefix frontend test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-test-results
+          path: frontend/test-results

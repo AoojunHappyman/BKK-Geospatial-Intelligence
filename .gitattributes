@@ -1,0 +1,5 @@
+* text=auto
+# Exact source bytes are required by SHA256 validation on every platform.
+data/raw/** -text
+*.png binary
+*.zip binary

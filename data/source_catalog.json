@@ -1,0 +1,104 @@
+{
+  "transit": {
+    "name": "สถานีและเส้นทางรถไฟฟ้า",
+    "organization": "กรมการขนส่งทางราง",
+    "url": "https://drt.gdcatalog.go.th/dataset/0462230b-f87e-4335-a870-08b3d7559f9a/resource/1f03a45d-e3b5-4e37-95e6-092dcc75f6ba/download/drt2565_02-1.csv",
+    "last_updated": "2026-09-23",
+    "reference_period": "snapshot 2026-10-01",
+    "license": null,
+    "raw_format": "CSV",
+    "type": "csv",
+    "notes": "สถานีแยกตามสายที่ Status=1 ในต้นทาง เก็บสถานีนอกกรุงเทพฯ เพื่อคำนวณรัศมีข้ามเขต ไม่ใช่ตารางเดินรถสด",
+    "source_id": "transit",
+    "retrieved_at": "2026-10-01T16:35:34.231932+00:00",
+    "raw_path": "data/raw/snapshots/1fa53177450fd6a704c4beee5a10596171a73e184f22c70100f57ef31f991e48.json",
+    "sha256": "1fa53177450fd6a704c4beee5a10596171a73e184f22c70100f57ef31f991e48",
+    "parts": [
+      {
+        "path": "data/raw/snapshots/22102a279ca00ddcde340ac131ac660c42235a2d856fc7a5209ccb8b7e4b8294.csv",
+        "sha256": "22102a279ca00ddcde340ac131ac660c42235a2d856fc7a5209ccb8b7e4b8294"
+      }
+    ]
+  },
+  "healthcare": {
+    "name": "ศูนย์บริการสาธารณสุข กทม.",
+    "organization": "กรุงเทพมหานคร / BMA GIS",
+    "url": "https://bmagis.bangkok.go.th/arcgis/rest/services/riskbkk/RISK_ADMIN_Health_Center/FeatureServer/0",
+    "last_updated": null,
+    "reference_period": "ไม่ระบุปีข้อมูล",
+    "license": null,
+    "raw_format": "ArcGIS JSON",
+    "type": "arcgis",
+    "name_field": "NAME",
+    "category": "ศูนย์บริการสาธารณสุข",
+    "fields": "OBJECTID,NAME,DCODE",
+    "notes": "ศูนย์บริการสาธารณสุขจากบริการสาธารณะ BMA GIS ไม่ระบุปีสำรวจ ไม่ครอบคลุมโรงพยาบาลหรือคลินิกทุกแห่ง ลิงก์ healthcenter ใน BMA Open Data ใช้งานไม่ได้ขณะนำเข้า",
+    "source_id": "healthcare",
+    "retrieved_at": "2026-10-01T16:35:34.483368+00:00",
+    "raw_path": "data/raw/snapshots/65b4347177f78609406006f9cfab95578ec2e2a5a67201dba21c5389d4d96da5.json",
+    "sha256": "65b4347177f78609406006f9cfab95578ec2e2a5a67201dba21c5389d4d96da5",
+    "parts": [
+      {
+        "path": "data/raw/snapshots/89f4cbbfbca1adc5753c3f2c4c53d2dd6f361b7aecf4736ff0393cea62fe337b.json",
+        "sha256": "89f4cbbfbca1adc5753c3f2c4c53d2dd6f361b7aecf4736ff0393cea62fe337b"
+      }
+    ]
+  },
+  "osm_transit": {
+    "name": "พิกัดสถานีเสริมจาก OpenStreetMap",
+    "organization": "OpenStreetMap contributors",
+    "url": "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3Bnwr%5B%22railway%22%3D%22station%22%5D%2813.4%2C100.2%2C14.1%2C100.95%29%3Bout%20center%20tags%3B",
+    "last_updated": null,
+    "reference_period": "snapshot",
+    "license": "ODbL 1.0 — https://www.openstreetmap.org/copyright",
+    "raw_format": "OSM JSON",
+    "type": "json",
+    "notes": "เติมเฉพาะพิกัดที่ขาดใน DRT เมื่อ ref สถานีตรงกันและพบ node railway=station เพียงจุดเดียว เก็บ OSM node id และแหล่งพิกัดต่อรายการ",
+    "source_id": "osm_transit",
+    "retrieved_at": "2026-10-01T16:35:36.542916+00:00",
+    "raw_path": "data/raw/snapshots/5d74551a3977db4059999573a98ca35dffa87dfcccdcf08da636ba73f74501f5.json",
+    "sha256": "5d74551a3977db4059999573a98ca35dffa87dfcccdcf08da636ba73f74501f5",
+    "parts": [
+      {
+        "path": "data/raw/snapshots/547c5d860177b904b8e29f6dd8cf18f79b38c0feb3f60d1aece5bf41d1d923fe.json",
+        "sha256": "547c5d860177b904b8e29f6dd8cf18f79b38c0feb3f60d1aece5bf41d1d923fe"
+      }
+    ]
+  },
+  "risk": {
+    "name": "จุดปัญหาน้ำท่วมจากการถอดบทเรียน 2565",
+    "organization": "กรุงเทพมหานคร / สำนักการระบายน้ำและสำนักงานเขต",
+    "url": "https://bmagis.bangkok.go.th/arcgis/rest/services/ปัญหาน้าท่วมจากการถอดบทเรียน_2565/FeatureServer/0",
+    "last_updated": null,
+    "reference_period": "2022 (2565)",
+    "license": null,
+    "raw_format": "ArcGIS JSON",
+    "type": "arcgis",
+    "name_field": "NAME",
+    "category_field": "TYPEPROBELM",
+    "fields": "OBJECTID,NAME,TYPEPROBELM,DISTRICT_ID,DISTRICT_NAME",
+    "notes": "จุดจากการถอดบทเรียนน้ำท่วมปี 2565 ไม่ใช่ความน่าจะเป็นหรือความเสี่ยงปัจจุบัน ไม่มีรายการไม่ได้แปลว่าไม่มีความเสี่ยง",
+    "source_id": "risk",
+    "retrieved_at": "2026-10-01T16:35:37.423402+00:00",
+    "raw_path": "data/raw/snapshots/b9d6ca15a9bc54a4a1993c1d0dcba8a63211361ee21149ac974022a936ffdebf.json",
+    "sha256": "b9d6ca15a9bc54a4a1993c1d0dcba8a63211361ee21149ac974022a936ffdebf",
+    "parts": [
+      {
+        "path": "data/raw/snapshots/aa78cdb9d4dc5072f4a193fece4931af2dc2c4564b805a4fa823c38df231e7a1.json",
+        "sha256": "aa78cdb9d4dc5072f4a193fece4931af2dc2c4564b805a4fa823c38df231e7a1"
+      },
+      {
+        "path": "data/raw/snapshots/607eea3712700e7fb99810b4dce75c75780a9df85b2753690cb0379c1370f636.json",
+        "sha256": "607eea3712700e7fb99810b4dce75c75780a9df85b2753690cb0379c1370f636"
+      },
+      {
+        "path": "data/raw/snapshots/ea0d439e05571455d398ea1f13180367a9a399c96cd3c4a6b07a2fa3cb7bf1e6.json",
+        "sha256": "ea0d439e05571455d398ea1f13180367a9a399c96cd3c4a6b07a2fa3cb7bf1e6"
+      },
+      {
+        "path": "data/raw/snapshots/e2026a7715600c713d1985cb9f7c11e70c3fe02c06781f14789e73e395b9b99a.json",
+        "sha256": "e2026a7715600c713d1985cb9f7c11e70c3fe02c06781f14789e73e395b9b99a"
+      }
+    ]
+  }
+}

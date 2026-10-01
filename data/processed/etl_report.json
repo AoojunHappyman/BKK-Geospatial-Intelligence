@@ -1,0 +1,714 @@
+{
+  "transforms": {
+    "transit": {
+      "accepted": 195,
+      "osm_coordinates": 55,
+      "rejected": [
+        {
+          "id": "ARL:A10",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "ARL:A9",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Blue:BL39",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Blue:BL40",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Blue:BL41",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Blue:BL42",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR01",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR02",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR03",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR04",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR05",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR06",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR07",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR08",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR09",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR10",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR11",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR12",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR13",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR14",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR15",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR16",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR17",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR18",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR19",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Brown:BR20",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:E24",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:E25",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:E26",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:E27",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:E28",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Gold:G4",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY01",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY02",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY03",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY04",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY05",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY06",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY07",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY08",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY09",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY10",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY11",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY12",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY13",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY14",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY15",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY16",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY17",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY18",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY19",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY20",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY21",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY22",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY23",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY24",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY25",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY26",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY27",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY28",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY29",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY30",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY31",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY32",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY33",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY34",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY35",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY36",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY37",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY38",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Grey:GY39",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:N25",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:N26",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:N27",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:N28",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Light green:N6",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR02",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR03",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR04",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR05",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR06",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR07",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR08",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR09",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR10",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR11",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR12",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR13",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR14",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR15",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR16",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR17",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR18",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR19",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR20",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR21",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR22",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR23",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR24",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR25",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR26",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR27",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR28",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Orange:OR29",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP17",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP18",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP19",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP20",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP21",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP22",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP23",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP24",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP25",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP26",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP27",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP28",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP29",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP30",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP31",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP32",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Purple :PP33",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red east:RE01",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red east:RE02",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red east:RE03",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red east:RE04",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red east:RE05",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red east:RE06",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red east:RE07",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red north:RN11",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red north:RN12",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red north:RN13",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red north:RN14",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS01",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS02",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS03",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS04",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS05",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS06",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS07",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS08",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS09",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS10",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS11",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS12",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS13",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS14",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS15",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS16",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS17",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS18",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS19",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS20",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS21",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS22",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red south:RS23",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west:RW03",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west:RW04",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west:RW07",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west:RW08",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west:RW09",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west:RW10",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west south:RWS1",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west south:RWS2",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west south:RWS3",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Red west south:RWS4",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Yellow:YLEX01",
+          "reason": "not_status_1"
+        },
+        {
+          "id": "Yellow:YLEX02",
+          "reason": "not_status_1"
+        }
+      ]
+    },
+    "healthcare": {
+      "accepted": 69,
+      "osm_coordinates": 0,
+      "rejected": []
+    },
+    "risk": {
+      "accepted": 737,
+      "osm_coordinates": 0,
+      "rejected": []
+    }
+  },
+  "spatial_assignments": [
+    {
+      "kind": "healthcare",
+      "assignment_status": "assigned",
+      "count": 69
+    },
+    {
+      "kind": "risk",
+      "assignment_status": "assigned",
+      "count": 737
+    },
+    {
+      "kind": "transit",
+      "assignment_status": "assigned",
+      "count": 152
+    },
+    {
+      "kind": "transit",
+      "assignment_status": "outside",
+      "count": 43
+    }
+  ],
+  "summary": {
+    "districts": 50,
+    "population": 5422568
+  }
+}

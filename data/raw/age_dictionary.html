@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8"/>
+        <title>จำนวนประชากรแยกรายอายุ</title>
+        <link rel="shortcut icon" href="../images/icn_view_users.png" type="image/png">
+
+        <link rel="stylesheet" href="../css/layout.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="../css/table.css" type="text/css" />
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="../js/jquery-1.5.2.min.js" type="text/javascript"></script>
+        <script src="../js/hideshow.js" type="text/javascript"></script>
+        <script src="../js/jquery.tablesorter.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../js/jquery.equalHeight.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function ()
+            {
+                $(".tablesorter").tablesorter();
+            }
+            );
+            $(document).ready(function () {
+
+                //When page loads...
+                $(".tab_content").hide(); //Hide all content
+                $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+                $(".tab_content:first").show(); //Show first tab content
+
+                //On Click Event
+                $("ul.tabs li").click(function () {
+
+                    $("ul.tabs li").removeClass("active"); //Remove any "active" class
+                    $(this).addClass("active"); //Add "active" class to selected tab
+                    $(".tab_content").hide(); //Hide all tab content
+
+                    var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+                    $(activeTab).fadeIn(); //Fade in the active ID content
+                    return false;
+                });
+
+            });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                $('.column').equalHeight();
+            });
+        </script>
+
+    </head>
+
+
+    <body>
+
+        <header id="header">
+            <hgroup>
+                <h1 class="site_title">ดาวน์โหลดสถิติ</h1>
+                <h2 class="section_title">จำนวนประชากรแยกรายอายุ</h2><!--<div class="btn_view_site"><a href="#">กลับ</a></div>-->
+            </hgroup>
+        </header> <!-- end of header bar -->
+
+        <section id="secondary_bar">
+            <div class="user">
+                <p>บุคคลทั่วไป</p>
+                <!--<a class="logout_user" href="#" title="Logout">Logout</a> -->
+            </div>
+            <div class="breadcrumbs_container">
+                <article class="breadcrumbs">
+                    <a href="statByYear.php">จำนวนประชากร</a>
+                    <div class="breadcrumb_divider"></div>
+                    <a href="statByAge.php">จำนวนประชากรแยกรายอายุ</a>
+                    <div class="breadcrumb_divider"></div>
+                    <a href="statByAgeMonth.php">จำนวนประชากรแยกรายอายุรายเดือน</a>
+                </article>
+            </div>
+        </section><!-- end of secondary bar -->
+
+        <aside id="sidebar" class="column">
+            <h3>ช่วยเหลือ</h3>
+<ul class="toggle">
+    <li class="icn_tags"><a href="statByAge.php">โครงสร้างข้อมูลสถิติจำนวนประชากรแยกรายอายุ</a></li>
+    <li class="icn_tags"><a href="helpStatByAge.php">คำแนะนำในการดาวน์โหลด</a></li>
+</ul>
+<h3>กรุณาเลือกปีที่ต้องการดาวน์โหลด</h3>
+<ul class="toggle">
+    <li class='icn_folder'><a href='statByProvince.php?year=69'>ปี พ.ศ. 2569</a></li><li class='icn_folder'><a href='statByProvince.php?year=68'>ปี พ.ศ. 2568</a></li><li class='icn_folder'><a href='statByProvince.php?year=67'>ปี พ.ศ. 2567</a></li><li class='icn_folder'><a href='statByProvince.php?year=66'>ปี พ.ศ. 2566</a></li><li class='icn_folder'><a href='statByProvince.php?year=65'>ปี พ.ศ. 2565</a></li><li class='icn_folder'><a href='statByProvince.php?year=64'>ปี พ.ศ. 2564</a></li><li class='icn_folder'><a href='statByProvince.php?year=63'>ปี พ.ศ. 2563</a></li><li class='icn_folder'><a href='statByProvince.php?year=62'>ปี พ.ศ. 2562</a></li><li class='icn_folder'><a href='statByProvince.php?year=61'>ปี พ.ศ. 2561</a></li><li class='icn_folder'><a href='statByProvince.php?year=60'>ปี พ.ศ. 2560</a></li><li class='icn_folder'><a href='statByProvince.php?year=59'>ปี พ.ศ. 2559</a></li><li class='icn_folder'><a href='statByProvince.php?year=58'>ปี พ.ศ. 2558</a></li><li class='icn_folder'><a href='statByProvince.php?year=57'>ปี พ.ศ. 2557</a></li><li class='icn_folder'><a href='statByProvince.php?year=56'>ปี พ.ศ. 2556</a></li><li class='icn_folder'><a href='statByProvince.php?year=55'>ปี พ.ศ. 2555</a></li><li class='icn_folder'><a href='statByProvince.php?year=54'>ปี พ.ศ. 2554</a></li><li class='icn_folder'><a href='statByProvince.php?year=53'>ปี พ.ศ. 2553</a></li><li class='icn_folder'><a href='statByProvince.php?year=52'>ปี พ.ศ. 2552</a></li><li class='icn_folder'><a href='statByProvince.php?year=51'>ปี พ.ศ. 2551</a></li><li class='icn_folder'><a href='statByProvince.php?year=50'>ปี พ.ศ. 2550</a></li><li class='icn_folder'><a href='statByProvince.php?year=49'>ปี พ.ศ. 2549</a></li><li class='icn_folder'><a href='statByProvince.php?year=48'>ปี พ.ศ. 2548</a></li><li class='icn_folder'><a href='statByProvince.php?year=47'>ปี พ.ศ. 2547</a></li><li class='icn_folder'><a href='statByProvince.php?year=46'>ปี พ.ศ. 2546</a></li><li class='icn_folder'><a href='statByProvince.php?year=45'>ปี พ.ศ. 2545</a></li><li class='icn_folder'><a href='statByProvince.php?year=44'>ปี พ.ศ. 2544</a></li><li class='icn_folder'><a href='statByProvince.php?year=43'>ปี พ.ศ. 2543</a></li><li class='icn_folder'><a href='statByProvince.php?year=42'>ปี พ.ศ. 2542</a></li><li class='icn_folder'><a href='statByProvince.php?year=41'>ปี พ.ศ. 2541</a></li><li class='icn_folder'><a href='statByProvince.php?year=40'>ปี พ.ศ. 2540</a></li><li class='icn_folder'><a href='statByProvince.php?year=39'>ปี พ.ศ. 2539</a></li><li class='icn_folder'><a href='statByProvince.php?year=38'>ปี พ.ศ. 2538</a></li><li class='icn_folder'><a href='statByProvince.php?year=37'>ปี พ.ศ. 2537</a></li></ul>
+            <footer>
+                <hr />
+                <!--<p><strong>Copyright &copy; 2014 Core Solution</strong></p>-->
+            </footer>
+        </aside><!-- end of sidebar -->
+
+        <section id="main" class="column">
+            <h4 class="alert_info">ยินดีต้อนรับสู่ระบบดาวน์โหลดข้อมูลทางสถิติ</h4>
+            <article class="module width_full">
+    <header><h3>โครงสร้างข้อมูลสถิติจำนวนประชากรแยกรายอายุ</h3></header>
+    <div class="module_content">
+        <h3>File Type : Sequential</h3>
+
+        <table class="bordered">
+            <thead>
+            <tr>
+                <th>Field Name</th>
+                <th>Separate By</th>
+                <th>Occurs</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>DESC-CCAATT</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>รายละเอียดจังหวัด หรือ อำเภอ หรือ ตำบล</td>
+            </tr>
+            <tr>
+                <td>MALE_AGE<br>FEMALE_AGE</td>
+                <td>"|"</td>
+                <td>102</td>
+                <td>
+                    male_age(0) ประชากรชายอายุ < 1 ปี<br>
+                    female_age(0) ประชากรหญิงอายุ < 1 ปี<br>
+                    male_age(1) ประชากรชายอายุ = 1 ปี<br>
+                    female_age(1) ประชากรหญิงอายุ = 1 ปี<br>
+                    ฯ<br>
+                    male_age(100) ประชากรชายอายุ = 100 ปี<br>
+                    female_age(100) ประชากรหญิงอายุ = 100 ปี<br>
+                    male_age(101) ประชากรชายอายุ > 100 ปี<br>
+                    female_age(101) ประชากรหญิงอายุ > 100 ปี<br>
+                </td>
+            </tr>
+            <tr>
+                <td>MALE_TDOB</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>ประชากรชายเกิดปีจันทรคติ</td>
+            </tr>
+            <tr>
+                <td>FEMALE_TDOB</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>ประชากรหญิงเกิดปีจันทรคติ</td>
+            </tr>
+            <tr>
+                <td>TOTAL_TDOB</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>ผลรวมประชากรที่เกิดปีจันทรคติ</td>
+            </tr>
+            <tr>
+                <td>MALE_XHOUSE</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรชายที่มีชื่ออยู่ในทะเบียนบ้านกลาง</td>
+            </tr>
+            <tr>
+                <td>FEMALE_XHOUSE</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรหญิงที่มีชื่ออยู่ในทะเบียนบ้านกลาง</td>
+            </tr>
+            <tr>
+                <td>TOTAL_XHOUSE</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>ผลรวมประชากรที่มีชื่ออยู่ในทะเบียนบ้านกลาง</td>
+            </tr>
+            <tr>
+                <td>MALE_OTHER_NAT</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรชายที่มิใช่สัญชาติไทย</td>
+            </tr>
+            <tr>
+                <td>FEMALE_OTHER_NAT</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรหญิงที่มิใช่สัญชาติไทย</td>
+            </tr>
+            <tr>
+                <td>TOTAL_OTHER_NAT</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>ผลรวมประชากรที่มิใช่สัญชาติไทย</td>
+            </tr>
+            <tr>
+                <td>MALE_MOVE</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรชายที่อยู่ระหว่างการย้าย</td>
+            </tr>
+            <tr>
+                <td>FEMALE_MOVE</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรหญิงที่อยู่ระหว่างการย้าย</td>
+            </tr>
+            <tr>
+                <td>TOTAL_MOVE</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>ผลรวมประชากรที่อยู่ระหว่างการย้าย</td>
+            </tr>
+            <tr>
+                <td>MALE_TOT</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรชายทั้งหมด</td>
+            </tr>
+            <tr>
+                <td>FEMALE_TOT</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>จำนวนประชากรหญิงทั้งหมด</td>
+            </tr>
+            <tr>
+                <td>TOTAL_TOT</td>
+                <td>"|"</td>
+                <td>-</td>
+                <td>ผลรวมประชากรทั้งหมด</td>
+            </tr>
+        </table>
+
+        <h3><u>หมายเหตุ:</u></h3>
+        <font size="2" color="0000ff">
+            (<b><font color="FF3300">ทะเบียนบ้านกลาง</font></b> หมายความว่า
+            ทะเบียนซึ่งผู้อำนวยการทะเบียนกลางกำหนดให้จัดทำขึ้นสำหรับลงรายการ บุคคลที่ไม่อาจมีชื่อในทะเบียนบ้าน)<br>
+            (<b><font color="FF3300">อยู่ระหว่างการย้าย</font></b> หมายความว่า
+            ผู้ที่ย้ายออกแต่ยังไม่ได้ย้ายเข้าที่ไหน)<br>
+            <b><font color="FF3300">MALE_TOT</font></b> = ผลรวมของ MALE_AGE(0) ถึง MALE_AGE(101) + MALE_TDOB +
+            MALE_XHOUSE + MALE_OTHER_NAT + MALE_MOVE<br>
+            <b><font color="FF3300">FEMALE_TOT</font></b> = ผลรวมของ FEMALE_AGE(0) ถึง FEMALE_AGE(101) + FEMALE_TDOB +
+            FEMALE_XHOUSE + FEMALE_OTHER_NAT + FEMALE_MOVE<br>
+            <b><font color="FF3300">ประชากรรายอายุ</font></b> คือ
+            จำนวนประชากรเฉพาะผู้ที่มีสัญชาติไทยและมีชื่อในทะเบียนบ้าน
+        </font>
+
+        <h3><u>ติดต่อสอบถาม:</u> 0-2791-7443</h3>
+    </div>
+</article><!-- end of styles article -->
+<div class="spacer"></div>        </section>
+    </body>
+</html>

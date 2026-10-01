@@ -1,0 +1,52 @@
+[
+  {
+    "file": "data\\raw\\population_district_2568.txt",
+    "url": "https://stat.bora.dopa.go.th/new_stat/file/68/stat_a68.txt",
+    "resolved_url": "https://stat.bora.dopa.go.th/new_stat/file/68/stat_a68.txt",
+    "retrieved_at": "2026-10-01T16:05:53.862826+00:00",
+    "bytes": 396965,
+    "sha256": "3e5d5725f5ac877ebd16483adbe450013a1bfd23650c52f1cc125861e0537222",
+    "content_type": "text/plain; charset=UTF-8",
+    "status": "downloaded"
+  },
+  {
+    "file": "data\\raw\\population_province_2568.txt",
+    "url": "https://stat.bora.dopa.go.th/new_stat/file/68/stat_c68.txt",
+    "resolved_url": "https://stat.bora.dopa.go.th/new_stat/file/68/stat_c68.txt",
+    "retrieved_at": "2026-10-01T16:05:53.387348+00:00",
+    "bytes": 7734,
+    "sha256": "176a660a069a5d8becf5169ad10d73039304821714b684687533e84f3fc126d7",
+    "content_type": "text/plain; charset=UTF-8",
+    "status": "downloaded"
+  },
+  {
+    "file": "data\\raw\\population_age_bangkok_2568.txt",
+    "url": "https://stat.bora.dopa.go.th/new_stat/file/6812/6812cc10.txt",
+    "resolved_url": "https://stat.bora.dopa.go.th/new_stat/file/6812/6812cc10.txt",
+    "retrieved_at": "2026-10-01T16:05:53.627984+00:00",
+    "bytes": 185974,
+    "sha256": "e77b4a986718fcc2a8f251bc54ce755bddbb9f0303d062a7d864b85601bd3d11",
+    "content_type": "text/plain; charset=UTF-8",
+    "status": "downloaded"
+  },
+  {
+    "file": "data\\raw\\age_dictionary.html",
+    "url": "https://stat.bora.dopa.go.th/new_stat/webPage/statByAge.php",
+    "resolved_url": "https://stat.bora.dopa.go.th/new_stat/webPage/statByAge.php",
+    "retrieved_at": "2026-10-01T16:05:53.405032+00:00",
+    "bytes": 14761,
+    "sha256": "e57f412dcf409c0071da6a537b8e82095a2d4ff065ee6b46b65fb91b8cae64d2",
+    "content_type": "text/html; charset=UTF-8",
+    "status": "downloaded"
+  },
+  {
+    "file": "data\\raw\\district_boundaries.zip",
+    "url": "https://data.bangkok.go.th/dataset/e537025b-1cf6-4c5b-8e46-c2e976f13283/resource/d7be7e84-9d84-4595-bf8f-79b0bc01f1ae/download/district-2.zip",
+    "resolved_url": "https://data.bangkok.go.th/dataset/e537025b-1cf6-4c5b-8e46-c2e976f13283/resource/d7be7e84-9d84-4595-bf8f-79b0bc01f1ae/download/district-2.zip",
+    "retrieved_at": "2026-10-01T16:05:54.008274+00:00",
+    "bytes": 966139,
+    "sha256": "f44bfc78a89e59912f285a0fddb1b073ae1e82a01a4e202196e841bbe3ce54f5",
+    "content_type": "application/zip",
+    "status": "downloaded"
+  }
+]
