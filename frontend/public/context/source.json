@@ -1,0 +1,11 @@
+{
+  "name": "Chao Phraya river centerline",
+  "url": "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A60%5D%3Bway%5B%22waterway%22%3D%22river%22%5D%5B%22name%22~%22%E0%B9%80%E0%B8%88%E0%B9%89%E0%B8%B2%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%A2%E0%B8%B2%7CChao+Phraya%22%2Ci%5D%2813.4%2C100.2%2C14.1%2C101.0%29%3Bout+geom%3B",
+  "retrieved_at": "2026-10-01T17:30:10.423599+00:00",
+  "sha256": "04e5fe6e0088d7bbe744d09f2bda2f873e5f3f334f708d5636a064156ecb1197",
+  "raw_path": "data/raw/snapshots/04e5fe6e0088d7bbe744d09f2bda2f873e5f3f334f708d5636a064156ecb1197.json",
+  "license": "ODbL 1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "notes": "River centerline for orientation only; not riverbank geometry or an analytical input.",
+  "features": 102
+}

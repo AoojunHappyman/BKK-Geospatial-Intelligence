@@ -49,10 +49,11 @@ def districts(): return district_rows()
 def geometry():
     with connection() as conn:
         rows=conn.execute('''SELECT district_code,name_th,name_en,
+            ST_AsGeoJSON(ST_PointOnSurface(geometry))::json AS label_point,
             ST_AsGeoJSON(ST_Transform(ST_SimplifyPreserveTopology(ST_Transform(geometry,32647),15),4326),6)::json AS geometry
             FROM district ORDER BY district_code''').fetchall()
     return {'type':'FeatureCollection','features':[dict(type='Feature',id=r['district_code'],
-        properties={k:r[k] for k in ('district_code','name_th','name_en')},geometry=r['geometry']) for r in rows]}
+        properties={k:r[k] for k in ('district_code','name_th','name_en','label_point')},geometry=r['geometry']) for r in rows]}
 
 @app.get('/api/districts/{code}',response_model=District)
 def district(code:str): return find_district(code)

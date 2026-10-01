@@ -7,11 +7,15 @@ import {CityMap} from './CityMap';
 import {format} from './types';
 import type {District,Metric,MetricKey,GeoData,Dataset} from './types';
 import {Link,NavLink,DistrictContext,useFlow,ExploreMap,ComparisonTray,CompareButton,ShareButton} from './ExploreFlow';
+import {Skeleton} from './Skeleton';
 import './styles.css';
 
 type Context={rows:District[];metrics:Metric[];geometry:GeoData;datasets:Dataset[]};
 const nav=[['/','ภาพรวม',LayoutGrid],['/districts','สำรวจรายเขต',Map],['/compare','เปรียบเทียบ',GitCompareArrows],['/data','ข้อมูลและแหล่งที่มา',Database]] as const;
-function State({error,loading}:{error?:string;loading?:boolean}){return <div className="state" role={error?'alert':'status'}>{loading?<><span className="spinner"/>กำลังโหลดข้อมูลกรุงเทพมหานคร…</>:<><Info size={24}/><p>{error||'ยังไม่มีข้อมูลในชุดที่เลือก'}</p><button onClick={()=>location.reload()}>ลองใหม่</button></>}</div>;}
+function State({error,loading}:{error?:string;loading?:boolean}){
+ if(loading)return <Skeleton/>;
+ return <div className="state" role={error?'alert':'status'}><Info size={24}/><p>{error||'ยังไม่มีข้อมูลในชุดที่เลือก'}</p><button onClick={()=>location.reload()}>ลองใหม่</button></div>;
+}
 function App(){
  const rows=useApi<District[]>('/api/districts'),metrics=useApi<Metric[]>('/api/metrics'),geometry=useApi<GeoData>('/api/districts/geojson'),datasets=useApi<Dataset[]>('/api/datasets');
  const error=rows.error||metrics.error||geometry.error||datasets.error;

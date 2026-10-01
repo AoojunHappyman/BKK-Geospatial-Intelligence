@@ -29,6 +29,8 @@ def test_geometry_sources_and_rankings():
     geo=client.get('/api/districts/geojson').json()
     assert geo['type']=='FeatureCollection' and len(geo['features'])==50
     assert all(f['geometry']['type'] in ('Polygon','MultiPolygon') for f in geo['features'])
+    assert all(f['properties']['label_point']['type']=='Point' for f in geo['features'])
+    assert all(len(f['properties']['label_point']['coordinates'])==2 for f in geo['features'])
     ranks=client.get('/api/analytics/population-density').json()['districts']
     assert [r['value'] for r in ranks]==sorted([r['value'] for r in ranks],reverse=True)
     assert client.get('/api/analytics/not-a-metric').status_code==404

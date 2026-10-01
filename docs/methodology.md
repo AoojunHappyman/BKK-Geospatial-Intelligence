@@ -12,7 +12,15 @@ District codes 1001–1050 are the canonical join keys. Thai and English names a
 - Simplify boundary geometry by 15 m only for the map response. Calculations use original validated geometry.
 - Nearby API uses `ST_DWithin` and `ST_Distance` on geography in metres. See `database/spatial_examples.sql` for executable spatial examples.
 
-## Metrics
+## Map context and annotations
+
+The Chao Phraya overlay is a cached OpenStreetMap **river centerline**, not a riverbank polygon, navigational chart or flood-risk input. No external tile server is required. Its query, SHA256 and retrieval timestamp are in `frontend/public/context/source.json`; the original response is an immutable raw snapshot. Refresh it explicitly with `python scripts/fetch_river_context.py`. OpenStreetMap ODbL attribution is displayed on the map. A full street basemap is not part of this change.
+
+District label anchors come from PostGIS `ST_PointOnSurface`, ensuring the label is inside its district rather than using a centroid that can fall outside concave polygons. Thai text is shaped locally by the browser and rendered as high-resolution, white-halo sprites in a MapLibre symbol layer, with collision avoidance and a minimum zoom of 9. More labels become visible as users zoom in.
+
+Tooltip comparisons use the **unweighted arithmetic mean of districts with non-null values** for the selected metric. They show absolute differences in the metric's unit (percentage points for percent-valued metrics), not a population-weighted city measure. Missing values are excluded and the denominator is visible. Zero remains a measured value; no-data has a separate gray swatch. Fit Bangkok changes only the camera, retaining the selected district and comparison set.
+
+## Metric definitions
 
 | Metric | Formula / interpretation |
 |---|---|

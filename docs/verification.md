@@ -28,4 +28,10 @@ Added in-place district details, cross-page comparison tray and shareable URL st
 
 ## Requirements status
 
+### Geospatial UX and readability follow-up
+
+Added a cached OSM Chao Phraya reference line, district labels, cursor-following bounded tooltip with unweighted district mean, stronger choropleth ramp/no-data legend, and Fit Bangkok control. Secondary typography is 11–12 px minimum (the zero-size navigation text rule intentionally hides text in icon-only layouts). Secondary text colors were darkened. Route-shaped loading skeletons replace the page spinner and disable shimmer under reduced-motion settings.
+
+Validation: frontend build passed, 9 existing browser scenarios plus 3 new geospatial/readability/loading scenarios passed; 7 backend tests passed with real PostGIS. New checks verify rendered river/labels, tooltip motion/Escape, camera reset, selected overview text contrast ≥4.5:1, skeleton geometry and reduced motion. Desktop/mobile and skeleton screenshots were visually reviewed. These are targeted accessibility checks, not a full WCAG conformance audit or a measured CLS guarantee.
+
 The MVP's data/ETL/PostGIS/API/five-page frontend, source metadata, real spatial analytics, loading/error/empty handling, automated tests, screenshots and local demo are implemented. Docker runtime verification is the outstanding Definition-of-Done item from `PROJECT_SPEC.md`.
