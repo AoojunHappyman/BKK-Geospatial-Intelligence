@@ -15,6 +15,10 @@
 
 ## Not yet verified / next operational steps
 
+### Exploration UX follow-up
+
+Added in-place district details, cross-page comparison tray and shareable URL state. TypeScript/Vite build passed; all 9 browser scenarios passed on the local development server, including the three new end-to-end checks for URL/clipboard/reload/back navigation, invalid/duplicate/over-limit district IDs, and mobile layout/clipboard fallback. Updated desktop/mobile screenshots are in `docs/screenshots/explore-flow*.png`. The mobile layout was refined after visual inspection to reserve scrolling space above the fixed comparison tray. This follow-up does not change ETL, database or API calculations.
+
 - Docker is unavailable on this host: Compose image builds, container startup and Linux integration remain unverified. Do not claim the plan's “Docker configuration works” checkbox is complete yet.
 - GitHub Actions has been authored but has not run on a remote repository.
 - No public hosting deployment was requested or performed. The local demo is available with reproducible setup instructions.

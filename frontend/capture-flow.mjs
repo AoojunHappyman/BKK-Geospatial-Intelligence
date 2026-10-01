@@ -1,0 +1,10 @@
+import {chromium} from '@playwright/test';
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1100}});
+await page.goto('http://127.0.0.1:5173/districts?metric=transit_coverage&district=1007&districts=1007,1030');
+await page.locator('.map[data-rendered-districts="50"]').waitFor();
+await page.screenshot({path:'../docs/screenshots/explore-flow.png',fullPage:false});
+await page.setViewportSize({width:390,height:844});
+await page.locator('.district-preview').evaluate(el=>el.scrollIntoView({block:'start'}));
+await page.screenshot({path:'../docs/screenshots/explore-flow-mobile.png',fullPage:false});
+await browser.close();

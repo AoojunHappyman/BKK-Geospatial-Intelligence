@@ -8,7 +8,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 maplibregl.setWorkerUrl(workerUrl);
 
 const colors=['#e2eee4','#b8d4bc','#7db395','#408d73','#155e4e'];
-export function CityMap({geometry,rows,metric,selected,onSelect,points}:{geometry:GeoData;rows:District[];metric:Metric;selected?:string;onSelect:(id:string)=>void;points?:GeoData|null}){
+export function CityMap({geometry,rows,metric,selected,onSelect,points,focusSelected=true}:{geometry:GeoData;rows:District[];metric:Metric;selected?:string;onSelect:(id:string)=>void;points?:GeoData|null;focusSelected?:boolean}){
  const container=useRef<HTMLDivElement>(null),mapRef=useRef<maplibregl.Map|null>(null);
  const latest=useRef({rows,metric,onSelect});latest.current={rows,metric,onSelect};
  const [ready,setReady]=useState(false),[error,setError]=useState(''),[hover,setHover]=useState<District|null>(null);
@@ -47,13 +47,13 @@ export function CityMap({geometry,rows,metric,selected,onSelect,points}:{geometr
   map.setFilter('selected-line',['==',['get','district_code'],selected||'']);
   (map.getSource('points') as GeoJSONSource).setData(points||{type:'FeatureCollection',features:[]});
  },[ready,geometry,rows,metric,max,selected,points]);
- useEffect(()=>{const map=mapRef.current;if(!ready||!map)return;
+ useEffect(()=>{const map=mapRef.current;if(!ready||!map||!focusSelected)return;
   const f=geometry.features.find(f=>f.properties?.district_code===selected);
   if(!f||f.geometry.type==='GeometryCollection'){map.fitBounds([[100.32,13.48],[100.97,13.96]],{padding:35,duration:500});return;}
   const bounds=new maplibregl.LngLatBounds();
   function walk(coords:unknown){if(!Array.isArray(coords))return;if(typeof coords[0]==='number'){bounds.extend([coords[0],coords[1] as number]);}else coords.forEach(walk);}
   walk(f.geometry.coordinates);map.fitBounds(bounds,{padding:60,maxZoom:13,duration:600});
- },[selected,ready,geometry]);
+ },[selected,ready,geometry,focusSelected]);
  return <div className="map-shell"><div className="map" ref={container} role="region" aria-label="แผนที่ 50 เขตกรุงเทพมหานคร"/>
   <div className="map-tag"><span className="live-dot"/> BANGKOK <span>13.7563° N · 100.5018° E</span></div>
   {error&&<div role="alert" className="map-error">{error}</div>}

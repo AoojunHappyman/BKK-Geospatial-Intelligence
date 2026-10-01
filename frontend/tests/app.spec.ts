@@ -10,7 +10,8 @@ test('overview, metric selection, explorer and profile use API data',async({page
  await expect(page.locator('.map-legend')).toContainText('พื้นที่ใกล้รถไฟฟ้า');
  const bounds=await page.locator('.maplibregl-canvas').boundingBox();
  await page.mouse.click(bounds!.x+bounds!.width/2,bounds!.y+bounds!.height/2);
- await expect(page).toHaveURL(/district\/10\d{2}/);
+ await expect(page).toHaveURL(/district=10\d{2}/);
+ await expect(page.getByRole('complementary',{name:'รายละเอียดเขตที่เลือก'})).toBeVisible();
  await page.goto('/districts');await page.getByLabel('ค้นหาเขต',{exact:true}).fill('ปทุมวัน');
  await expect(page.locator('tbody tr')).toHaveCount(1);
  await page.locator('tbody tr a').first().click();
