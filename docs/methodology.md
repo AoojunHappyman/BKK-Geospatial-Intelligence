@@ -1,5 +1,15 @@
 # Methodology and limitations
 
+## Page-level analysis
+
+The six zone memberships are transcribed from the BMA Administration and Registration Office's section for Order 2460/2552 dated 11 June 2009, verified on 2 October 2026: [official working-group list](https://webportal.bangkok.go.th/ard/page/sub/30989). They contain 9 central, 10 south, 7 north, 9 east, 8 north-Thonburi and 7 south-Thonburi districts. These are administrative working groups, not statistical clustering. The versioned mapping is in `data-pipeline/config/district_zones.json` and exposed through data-source metadata.
+
+Overview statistics and Top/Bottom 5 use the selected zone. Missing values are excluded, actual zeros retained, and ties ordered by district code. Positions do not imply severity or service quality. Map colors retain the city-wide scale while excluded districts are faded; the legend explains the fade. Explorer zone/search filters, sorting direction and ranking mode persist in the URL. Table export includes exactly the visible rows in their current sort order; no matches yields headers only. Numeric nulls sort last in both directions; names use Thai collation in the browser.
+
+Profile benchmark badges differ deliberately from the map's simple district-mean tooltip: city density = total population / total polygon area; 60+ share = total age 60+ / total age-classified population; rail proximity is weighted by district area; health centers per 100k uses aggregate centers / population. Count metrics use unweighted district means. Each badge displays its method. Filters do not change these city-wide benchmarks.
+
+The pyramid uses actual male/female counts by single year from DOPA, loaded into PostGIS; total sex counts are not apportioned to ages. Bands span 0–4 to 95–99 and 100+ (combining 100 and the source's 101+ group). Male/female classifications follow the source. Both sides use the same people-count scale, with visible counts and an accessible table. The graph excludes source categories outside the Thai age-classified series and states that excluded total explicitly. POI list buttons pan/zoom to the source coordinate and open a text-safe popup; switching layers clears the old selection.
+
 District codes 1001–1050 are the canonical join keys. Thai and English names are display attributes. Boundary name ราษฏร์บูรณะ is normalized to ราษฎร์บูรณะ for district 1024. Original raw files are preserved.
 
 ## Spatial processing

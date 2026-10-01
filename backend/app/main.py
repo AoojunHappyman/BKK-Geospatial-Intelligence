@@ -42,6 +42,40 @@ def health():
 @app.get('/api/metrics')
 def metrics(): return METRICS
 
+@app.get('/api/benchmarks')
+def benchmarks():
+    with connection() as conn:
+        values=conn.execute('''SELECT
+          sum(population_total)/nullif(sum(area_km2),0) AS population_density,
+          avg(population_total) AS population_total,
+          100.0*sum(age_60_plus)/nullif(sum(age_classified_total),0) AS older_share,
+          sum(transit_coverage*area_km2) FILTER(WHERE transit_coverage IS NOT NULL)/nullif(sum(area_km2) FILTER(WHERE transit_coverage IS NOT NULL),0) AS transit_coverage,
+          100000.0*sum(healthcare_facility_count)/nullif(sum(population_total) FILTER(WHERE healthcare_facility_count IS NOT NULL),0) AS healthcare_per_100k,
+          avg(transit_station_count) AS transit_station_count,
+          avg(healthcare_facility_count) AS healthcare_facility_count,
+          avg(risk_location_count) AS risk_location_count FROM district_metrics''').fetchone()
+    methods={
+        'population_density':'ประชากรรวม ÷ พื้นที่รวมทั้ง 50 เขต',
+        'older_share':'อายุ 60+ รวม ÷ ประชากรที่แจกแจงอายุรวม',
+        'transit_coverage':'เฉลี่ยถ่วงน้ำหนักด้วยพื้นที่เขตที่มีข้อมูล',
+        'healthcare_per_100k':'ศูนย์สุขภาพรวม ÷ ประชากรในเขตที่มีข้อมูล × 100,000',
+    }
+    return {key:{'value':value,'method':methods.get(key,'ค่าเฉลี่ยรายเขตแบบไม่ถ่วงน้ำหนัก')} for key,value in values.items()}
+
+@app.get('/api/districts/{code}/population-pyramid')
+def population_pyramid(code:str):
+    row=find_district(code)
+    with connection() as conn:
+        bands=conn.execute('''SELECT least((age_lower/5)*5,100) AS age_start,
+          sum(male)::int AS male,sum(female)::int AS female FROM population_age
+          WHERE district_code=%s AND reference_period=%s::date
+          GROUP BY 1 ORDER BY 1 DESC''',(code,row['reference_period']+'-01')).fetchall()
+    if not bands:raise HTTPException(404,'Age-sex data not available')
+    return {'district_code':code,'reference_period':row['reference_period'],
+        'source_id':'population_age','classified_total':row['age_classified_total'],
+        'excluded_total':row['outside_age_series'],
+        'bands':[{**b,'label':'100+' if b['age_start']==100 else f"{b['age_start']}–{b['age_start']+4}"} for b in bands]}
+
 @app.get('/api/districts',response_model=list[District])
 def districts(): return district_rows()
 
@@ -126,8 +160,16 @@ def nearby(lon:float=Query(ge=100,le=102),lat:float=Query(ge=13,le=15),
          (lon,lat,kind,lon,lat,radius_m)).fetchall()
 
 @app.get('/api/export/districts.csv')
-def export():
-    rows=district_rows();buffer=io.StringIO();w=csv.DictWriter(buffer,fieldnames=list(rows[0]))
+def export(districts:str|None=Query(default=None)):
+    all_rows=district_rows()
+    if districts is None:rows=all_rows
+    else:
+        codes=[c.strip() for c in districts.split(',') if c.strip()]
+        by_code={r['district_code']:r for r in all_rows}
+        if len(codes)>50 or len(codes)!=len(set(codes)) or any(c not in by_code for c in codes):
+            raise HTTPException(422,'Invalid district selection')
+        rows=[by_code[c] for c in codes]
+    buffer=io.StringIO();w=csv.DictWriter(buffer,fieldnames=list(all_rows[0]))
     w.writeheader();w.writerows(rows)
     return Response('\ufeff'+buffer.getvalue(),media_type='text/csv; charset=utf-8',
         headers={'Content-Disposition':'attachment; filename=bkk-district-metrics.csv'})

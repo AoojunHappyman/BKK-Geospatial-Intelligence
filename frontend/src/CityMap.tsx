@@ -18,9 +18,10 @@ function labelImage(name:string){
  ctx.font='600 26px Tahoma, sans-serif';ctx.textBaseline='middle';ctx.lineJoin='round';ctx.lineWidth=6;ctx.strokeStyle='#fff';ctx.strokeText(name,8,25);ctx.fillStyle='#173c32';ctx.fillText(name,8,25);
  return ctx.getImageData(0,0,canvas.width,canvas.height);
 }
-export function CityMap({geometry,rows,metric,selected,onSelect,points,focusSelected=true}:{geometry:GeoData;rows:District[];metric:Metric;selected?:string;onSelect:(id:string)=>void;points?:GeoData|null;focusSelected?:boolean}){
+export function CityMap({geometry,rows,metric,selected,onSelect,points,focusSelected=true,focusPoint,visibleCodes}:{geometry:GeoData;rows:District[];metric:Metric;selected?:string;onSelect:(id:string)=>void;points?:GeoData|null;focusSelected?:boolean;focusPoint?:GeoData['features'][number]|null;visibleCodes?:string[]}){
  const container=useRef<HTMLDivElement>(null),mapRef=useRef<maplibregl.Map|null>(null);
- const latest=useRef({rows,metric,onSelect});latest.current={rows,metric,onSelect};
+ const popupRef=useRef<maplibregl.Popup|null>(null);
+ const latest=useRef({rows,metric,onSelect,visibleCodes});latest.current={rows,metric,onSelect,visibleCodes};
  const [ready,setReady]=useState(false),[error,setError]=useState(''),[hover,setHover]=useState<{row:District;x:number;y:number}|null>(null);
  const tooltipRef=useRef<HTMLDivElement>(null);const [tooltipPosition,setTooltipPosition]=useState({left:0,top:0});
  const [contextError,setContextError]=useState(false);
@@ -56,10 +57,10 @@ export function CityMap({geometry,rows,metric,selected,onSelect,points,focusSele
    map.addLayer({id:'district-labels',type:'symbol',source:'district-labels',minzoom:9,layout:{'icon-image':['concat','name-',['get','district_code']],'icon-allow-overlap':false,'icon-padding':5,'icon-size':['interpolate',['linear'],['zoom'],9,0.9,12,1.1]}});
    setReady(true);map.fitBounds([[100.32,13.48],[100.97,13.96]],{padding:30,duration:0});
   });
-  map.on('mousemove','district-fill',e=>{const code=e.features?.[0]?.properties?.district_code;const row=latest.current.rows.find(r=>r.district_code===code);setHover(row?{row,x:e.point.x,y:e.point.y}:null);map.getCanvas().style.cursor='pointer';});
+  map.on('mousemove','district-fill',e=>{const code=e.features?.[0]?.properties?.district_code;const row=latest.current.rows.find(r=>r.district_code===code&&(!latest.current.visibleCodes||latest.current.visibleCodes.includes(code)));setHover(row?{row,x:e.point.x,y:e.point.y}:null);map.getCanvas().style.cursor='pointer';});
   map.on('mouseleave','district-fill',()=>{setHover(null);map.getCanvas().style.cursor='';});
-  map.on('click','district-fill',e=>{setHover(null);const code=e.features?.[0]?.properties?.district_code;if(code)latest.current.onSelect(code);});
-  map.on('click','point-circles',e=>{const f=e.features?.[0];if(!f)return;const node=document.createElement('div');node.textContent=f.properties?.name;new maplibregl.Popup().setLngLat(e.lngLat).setDOMContent(node).addTo(map);});
+  map.on('click','district-fill',e=>{if(map.queryRenderedFeatures(e.point,{layers:['point-circles']}).length)return;setHover(null);const code=e.features?.[0]?.properties?.district_code;if(code&&(!latest.current.visibleCodes||latest.current.visibleCodes.includes(code)))latest.current.onSelect(code);});
+  map.on('click','point-circles',e=>{const f=e.features?.[0];if(!f)return;const node=document.createElement('div');node.textContent=f.properties?.name;popupRef.current?.remove();popupRef.current=new maplibregl.Popup().setLngLat(e.lngLat).setDOMContent(node).addTo(map);});
   const resize=new ResizeObserver(()=>map.resize());resize.observe(container.current);
   return()=>{resize.disconnect();map.remove();mapRef.current=null;};
  },[geometry]);
@@ -78,6 +79,19 @@ export function CityMap({geometry,rows,metric,selected,onSelect,points,focusSele
   function walk(coords:unknown){if(!Array.isArray(coords))return;if(typeof coords[0]==='number'){bounds.extend([coords[0],coords[1] as number]);}else coords.forEach(walk);}
   walk(f.geometry.coordinates);map.fitBounds(bounds,{padding:60,maxZoom:13,duration:motionDuration()});
  },[selected,ready,geometry,focusSelected]);
+ useEffect(()=>{const map=mapRef.current;if(!ready||!map)return;
+  setHover(null);
+  const filter:maplibregl.FilterSpecification|undefined=visibleCodes?['in',['get','district_code'],['literal',visibleCodes]]:undefined;
+  map.setPaintProperty('district-fill','fill-opacity',filter?['case',filter,.93,.12]:.93);
+  map.setFilter('district-labels',filter||null);
+ },[ready,visibleCodes]);
+ useEffect(()=>{const map=mapRef.current;popupRef.current?.remove();if(!ready||!map||!focusPoint||focusPoint.geometry.type!=='Point'||!points?.features.some(f=>f.id===focusPoint.id))return;
+  const coordinates=focusPoint.geometry.coordinates as [number,number];
+  map.easeTo({center:coordinates,zoom:15,duration:motionDuration()});
+  const node=document.createElement('div');node.textContent=String(focusPoint.properties?.name||'จุดที่เลือก');
+  popupRef.current=new maplibregl.Popup({closeButton:true,closeOnClick:true}).setLngLat(coordinates).setDOMContent(node).addTo(map);
+  return()=>{popupRef.current?.remove();};
+ },[ready,focusPoint,points,selected]);
  return <div className="map-shell"><div className="map" ref={container} role="region" aria-label="แผนที่ 50 เขตกรุงเทพมหานคร"/>
   <div className="map-tag"><span className="live-dot"/> BANGKOK <span>13.7563° N · 100.5018° E</span></div>
   {error&&<div role="alert" className="map-error">{error}</div>}
@@ -85,6 +99,7 @@ export function CityMap({geometry,rows,metric,selected,onSelect,points,focusSele
   <button className="map-reset" onClick={()=>{setHover(null);mapRef.current?.fitBounds(bangkokBounds,{padding:35,duration:motionDuration()});}}>ดูครบ 50 เขต</button>
   {contextError&&<div className="map-context-warning" role="status">โหลดแนวแม่น้ำไม่สำเร็จ</div>}
   <div className="map-legend"><strong>{metric.label}</strong><div className="gradient"/><div className="legend-values"><span>0</span><span>{format(max,metric.decimals)} {metric.unit}</span></div><small>สีเข้ม = ค่ามาก · คลิกเขตเพื่อดูรายละเอียด</small><div className="legend-context"><span><i className="missing-swatch"/> ไม่มีข้อมูล</span><span><i className="river-swatch"/> เจ้าพระยา</span></div></div>
+  {visibleCodes&&visibleCodes.length<50&&<div className="map-filter-note">เน้น {visibleCodes.length} เขตตามตัวกรอง · สีจาง = นอกตัวกรอง</div>}
   <div className="north">N<span>↑</span></div>
  </div>;
 }

@@ -10,6 +10,7 @@ test('selection, comparison and share survive navigation, reload and browser bac
  await expect(page.getByLabel('ค้นหาเขต',{exact:true})).toHaveValue('ปทุมวัน');
  await expect(page.getByLabel('ตัวชี้วัด',{exact:true})).toHaveValue('transit_coverage');
  await page.getByRole('button',{name:'ปิดรายละเอียดเขต'}).click();
+ await page.getByLabel('ค้นหาเขต',{exact:true}).fill('');
  await page.getByLabel('เลือกเขตบนแผนที่').selectOption('1030');
  await panel.getByRole('button',{name:'เพิ่มเพื่อเปรียบเทียบ',exact:true}).click();
  const sharedUrl=page.url();
@@ -24,7 +25,7 @@ test('selection, comparison and share survive navigation, reload and browser bac
  await expect(page.locator('.comparison-grid .panel')).toHaveCount(5);
  await page.reload();await expect(page.locator('.selected-chips button')).toHaveCount(2);
  await page.goBack();await expect(panel).toContainText('จตุจักร');
- await expect(page.getByLabel('ค้นหาเขต',{exact:true})).toHaveValue('ปทุมวัน');
+ await expect(page.getByLabel('ค้นหาเขต',{exact:true})).toHaveValue('');
 });
 
 test('invalid shared IDs are ignored and selection is capped at four',async({page})=>{

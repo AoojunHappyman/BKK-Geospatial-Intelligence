@@ -28,6 +28,12 @@ Added in-place district details, cross-page comparison tray and shareable URL st
 
 ## Requirements status
 
+### Page-by-page analytics follow-up
+
+Overview now provides Top/Bottom 5 and a verified six-zone filter. Explorer supports sortable columns (including selected comparison state) and server-generated CSV of the exact filtered rows in display order. Profile provides city benchmark badges, real age-sex population pyramids and POI buttons that move the map/open a popup. Migration 002 and the ETL load 50 zone memberships and 5,100 source age-sex rows, with per-district reconciliation. Existing installations must rerun the ETL and restart the API.
+
+Verification: 15 browser tests and 9 backend tests passed; TypeScript/Vite production build passed. Tests compare pyramid male/female counts with source CSV, validate benchmark formulas and zone coverage, and check sorted filtered/empty CSV output, URL state and POI behavior. Desktop pyramid, mobile pyramid, zone-ranking and POI screenshots were reviewed. A transient old-POI flash while changing API URLs was fixed. Fonts are bundled locally with their SIL OFL licenses; no Google Fonts request is required. Browser-test workers are limited to two for consistent resource use on the development host. Docker/remote CI remain outside this local verification.
+
 ### Geospatial UX and readability follow-up
 
 Added a cached OSM Chao Phraya reference line, district labels, cursor-following bounded tooltip with unweighted district mean, stronger choropleth ramp/no-data legend, and Fit Bangkok control. Secondary typography is 11–12 px minimum (the zero-size navigation text rule intentionally hides text in icon-only layouts). Secondary text colors were darkened. Route-shaped loading skeletons replace the page spinner and disable shimmer under reduced-motion settings.

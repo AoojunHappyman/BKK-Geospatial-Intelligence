@@ -55,3 +55,38 @@ def test_boundary_policy_with_spatial_sql():
             SELECT ST_Within(p,g) AS within,ST_Covers(g,p) AS covers FROM s""").fetchone()
     assert r=={'within':False,'covers':True}
 
+def test_zones_pyramid_and_city_benchmark():
+    from collections import Counter
+    rows=client.get('/api/districts').json()
+    assert sorted(Counter(r['zone'] for r in rows).values())==[7,7,8,9,9,10]
+    profile=next(r for r in rows if r['district_code']=='1007')
+    assert profile['zone']=='กรุงเทพใต้'
+    pyramid=client.get('/api/districts/1007/population-pyramid').json()
+    assert len(pyramid['bands'])==21
+    assert pyramid['bands'][0]['label']=='100+'
+    assert sum(b['male']+b['female'] for b in pyramid['bands'])==profile['age_classified_total']
+    assert pyramid['classified_total']+pyramid['excluded_total']==profile['population_total']
+    import csv
+    from pathlib import Path
+    with (Path(__file__).resolve().parents[2]/'data/processed/district_population_age_2025.csv').open(encoding='utf-8-sig') as f:
+        source=[r for r in csv.DictReader(f) if r['district_code']=='1007']
+    for start in (0,100):
+        group=[r for r in source if (int(r['age_lower'])>=100 if start==100 else int(r['age_lower'])<5)]
+        actual=next(b for b in pyramid['bands'] if b['age_start']==start)
+        assert actual['male']==sum(int(r['male']) for r in group)
+        assert actual['female']==sum(int(r['female']) for r in group)
+    benchmarks=client.get('/api/benchmarks').json()
+    expected=sum(r['population_total'] for r in rows)/sum(r['area_km2'] for r in rows)
+    assert benchmarks['population_density']['value']==pytest.approx(expected)
+    assert benchmarks['older_share']['value']==pytest.approx(100*sum(r['age_60_plus'] for r in rows)/sum(r['age_classified_total'] for r in rows))
+    assert client.get('/api/districts/9999/population-pyramid').status_code==404
+
+def test_filtered_export_preserves_order_and_validates_selection():
+    import csv,io
+    result=client.get('/api/export/districts.csv?districts=1030,1007')
+    rows=list(csv.DictReader(io.StringIO(result.text.lstrip('\ufeff'))))
+    assert [r['district_code'] for r in rows]==['1030','1007']
+    assert client.get('/api/export/districts.csv?districts=9999').status_code==422
+    assert client.get('/api/export/districts.csv?districts=1007,1007').status_code==422
+    assert len(client.get('/api/export/districts.csv?districts=').text.splitlines())==1
+

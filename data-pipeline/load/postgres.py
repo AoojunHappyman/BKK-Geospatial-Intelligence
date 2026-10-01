@@ -3,6 +3,7 @@ from pathlib import Path
 import psycopg
 from psycopg.types.json import Jsonb
 from psycopg.rows import dict_row
+from load.demographics import load_demographics
 ROOT=Path(__file__).resolve().parents[2]
 
 def upsert_source(conn,info,count):
@@ -24,6 +25,7 @@ def load_all(frame,catalog,points,reports):
             sha256=item['sha256'],raw_path=item['file'].replace('\\','/'),notes=notes)
     with psycopg.connect(os.environ['DATABASE_URL'],row_factory=dict_row) as conn:
         conn.execute((ROOT/'database/migrations/001_initial.sql').read_text(encoding='utf-8'))
+        conn.execute((ROOT/'database/migrations/002_demographics_zones.sql').read_text(encoding='utf-8'))
         upsert_source(conn,original('district_boundaries.zip','districts','ขอบเขต 50 เขต','กรุงเทพมหานคร','ทรัพยากร 2021-03-09','พื้นที่คำนวณจาก polygon ไม่ใช่พื้นที่สถิติทางการ วันที่ขอบเขตมีผลไม่ระบุ'),50)
         upsert_source(conn,original('population_district_2568.txt','population','ประชากรและอายุรายเขต','กรมการปกครอง','2025-12','อายุครอบคลุมประชากรไทยในชุดแจกแจงอายุ รายละเอียด source ทั้งหมดใน data/raw/manifest.json'),50)
         upsert_source(conn,original('population_age_bangkok_2568.txt','population_age','ประชากรแยกอายุรายเขต','กรมการปกครอง','2025-12','เฉพาะผู้มีสัญชาติไทยในชุดแจกแจงอายุ เก็บหมวดนอกชุดอายุแยกไว้'),5100)
@@ -40,6 +42,7 @@ def load_all(frame,catalog,points,reports):
              age_0_14=excluded.age_0_14,age_15_59=excluded.age_15_59,age_60_plus=excluded.age_60_plus,
              age_classified_total=excluded.age_classified_total,outside_age_series=excluded.outside_age_series,source_id=excluded.source_id''',
              (r.district_code,r.reference_period+'-01',*vals,'population'))
+        load_demographics(conn,upsert_source)
         for source_id,records in points.items():
             upsert_source(conn,catalog[source_id],len(records))
             conn.execute('DELETE FROM point_location WHERE source_id=%s',(source_id,))

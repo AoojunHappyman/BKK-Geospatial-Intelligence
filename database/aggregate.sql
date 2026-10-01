@@ -14,7 +14,7 @@ WITH areas AS (
  count(*) FILTER(WHERE kind='risk')::int AS risk_location_count
  FROM point_location GROUP BY district_code
 )
-SELECT d.district_code,d.name_th,d.name_en,to_char(p.reference_period,'YYYY-MM') AS reference_period,
+SELECT d.district_code,d.name_th,d.name_en,z.zone,to_char(p.reference_period,'YYYY-MM') AS reference_period,
  a.area_km2,p.population_total,p.male_population,p.female_population,
  p.population_total/a.area_km2 AS population_density,
  p.age_0_14,p.age_15_59,p.age_60_plus,p.age_classified_total,p.outside_age_series,
@@ -27,6 +27,7 @@ SELECT d.district_code,d.name_th,d.name_en,to_char(p.reference_period,'YYYY-MM')
  coalesce(100.0*ST_Area(ST_Intersection(ST_Transform(d.geometry,32647),b.geom))/(a.area_km2*1000000.0),0) END AS transit_coverage,
  now() AS updated_at
 FROM district d JOIN areas a USING(district_code) JOIN population p USING(district_code)
+JOIN district_zone z USING(district_code)
 LEFT JOIN counts c USING(district_code) CROSS JOIN buffers b;
 CREATE UNIQUE INDEX district_metrics_key ON district_metrics(district_code,reference_period);
 

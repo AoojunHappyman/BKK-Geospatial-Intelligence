@@ -5,6 +5,7 @@ class District(BaseModel):
     district_code: str
     name_th: str
     name_en: str
+    zone: str
     reference_period: str
     area_km2: float
     population_total: int
