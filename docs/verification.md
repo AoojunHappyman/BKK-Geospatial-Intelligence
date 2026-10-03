@@ -53,3 +53,11 @@ Added a cached OSM Chao Phraya reference line, district labels, cursor-following
 Validation: frontend build passed, 9 existing browser scenarios plus 3 new geospatial/readability/loading scenarios passed; 7 backend tests passed with real PostGIS. New checks verify rendered river/labels, tooltip motion/Escape, camera reset, selected overview text contrast ≥4.5:1, skeleton geometry and reduced motion. Desktop/mobile and skeleton screenshots were visually reviewed. These are targeted accessibility checks, not a full WCAG conformance audit or a measured CLS guarantee.
 
 The MVP's data/ETL/PostGIS/API/five-page frontend, source metadata, real spatial analytics, loading/error/empty handling, automated tests, screenshots and local demo are implemented. Docker runtime verification is now complete on a fresh Linux CI runner, closing the outstanding Docker Definition-of-Done item from `PROJECT_SPEC.md`.
+
+## Linked population-density / rail-proximity chart
+
+The overview includes a scatter plot of registered population density (people/km²) against district land area within an 800 m straight-line radius of rail stations (%). Each point shares district selection with the map/details panel and the existing URL, including reload/back navigation. Six-zone filtering applies to the chart; reference lines use unweighted means of all districts with both measures, so thresholds and axes remain stable between zones. Missing pairs are excluded and reported; zero coverage stays visible.
+
+The highlighted upper-left group is a starting point for further study, not an investment-priority score. Coverage is land area, not population access or walking distance. Users can select overlapping points via the district dropdown, use keyboard selection, and open district profiles. Mobile horizontal scrolling keeps the selected point in view.
+
+Validation: production build and the full 18-test browser suite passed locally. Three new browser scenarios cover API-to-coordinate agreement, candidate membership, map/chart selection, URL/reload/back, zone thresholds, keyboard/mobile layout, and missing/zero/empty data. Desktop/mobile chart screenshots were reviewed. These changes have not yet been run through remote CI.
