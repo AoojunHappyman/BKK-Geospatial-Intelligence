@@ -87,7 +87,7 @@ docker compose up --build -d
 
 เปิด <http://127.0.0.1:8080> ลำดับเริ่มคือ PostGIS → ETL → API → Nginx/Frontend ข้อมูล DB อยู่ใน named volume อย่าใช้ `down -v` หากต้องการเก็บข้อมูล
 
-**ข้อจำกัดการตรวจสอบ:** เครื่องพัฒนานี้ไม่มี Docker จึงยังไม่ได้รัน Compose จริง ไฟล์ Docker/CI เตรียมไว้แล้ว แต่ยังไม่ถือว่าผ่านการทดสอบบน container รายละเอียดใน [verification](docs/verification.md)
+**ผลการตรวจสอบ:** ทดสอบ Compose จริงจาก checkout ใหม่บน GitHub Actions (Ubuntu) แล้ว: เริ่มด้วยคำสั่งข้างต้น นำเข้าครบ 50 เขต ผ่าน backend tests 9 รายการและ browser tests 15 รายการ โดยไม่ใช้ runtime เดิมในเครื่อง Windows ดู [หลักฐานการทดสอบ](docs/verification.md)
 
 ## ทดสอบ
 

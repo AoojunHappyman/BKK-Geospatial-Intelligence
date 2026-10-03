@@ -1,4 +1,16 @@
-# Verification — 2 October 2026 (Asia/Bangkok)
+# Verification — 3 October 2026 (Asia/Bangkok)
+
+## Remote CI and fresh Docker verification
+
+[GitHub Actions run 37134751031](https://github.com/AoojunHappyman/BKK-Geospatial-Intelligence/actions/runs/37134751031) passed for commit `d6fa646`. Both independent Ubuntu jobs completed successfully.
+
+- Integration: offline ETL, real PostGIS, 9 backend tests, frontend production build and all 15 Chromium browser tests passed.
+- Docker: fresh checkout explicitly checked for absence of `.runtime`, `.local`, `.cache`, `.env` and frontend dependencies. With a CI-only password supplied through the environment, `docker compose up --build -d` built images and started PostGIS → ETL → API → Nginx using a new named database volume, without host application processes or runtime files.
+- Public HTTP checks through Nginx on port 8080 confirmed SPA deep links, 50 unique district records, 50 geometries, population 5,422,568, sex-total reconciliation and 51-line CSV export.
+- All 9 backend tests passed inside the API container; all 15 browser tests passed against the containerized production frontend and API. Container status/logs are retained in the run’s `docker-verification` artifact. Temporary containers and the CI database volume were removed after verification.
+- Fixed two browser-test races found on Linux: wait for the empty CSV export URL to update, and select the expected healthcare POI by its API-provided name. Ranking assertions also wait for the rendered order. No fixed sleeps or automatic test retries were added.
+- This validates Linux Docker on GitHub-hosted runners. Docker Desktop on this Windows development host and public hosting remain untested. Earlier local verification notes below describe their original scope.
+
 
 ## Verified locally
 
@@ -19,8 +31,8 @@
 
 Added in-place district details, cross-page comparison tray and shareable URL state. TypeScript/Vite build passed; all 9 browser scenarios passed on the local development server, including the three new end-to-end checks for URL/clipboard/reload/back navigation, invalid/duplicate/over-limit district IDs, and mobile layout/clipboard fallback. Updated desktop/mobile screenshots are in `docs/screenshots/explore-flow*.png`. The mobile layout was refined after visual inspection to reserve scrolling space above the fixed comparison tray. This follow-up does not change ETL, database or API calculations.
 
-- Docker is unavailable on this host: Compose image builds, container startup and Linux integration remain unverified. Do not claim the plan's “Docker configuration works” checkbox is complete yet.
-- GitHub Actions has been authored but has not run on a remote repository.
+- Docker is unavailable on this Windows host; Linux container builds/startup and integration are now verified remotely as recorded above.
+- GitHub Actions has now run successfully on the remote repository (see run above).
 - No public hosting deployment was requested or performed. The local demo is available with reproducible setup instructions.
 - Frontend bundle includes MapLibre and triggers Vite's 500 kB chunk warning; the main asset is approximately 375 kB gzipped, plus a separate worker. Performance budgeting/code splitting is future optimization.
 - Source licensing remains unspecified where publishers did not provide verified terms; source data is not relicensed here.
@@ -40,4 +52,4 @@ Added a cached OSM Chao Phraya reference line, district labels, cursor-following
 
 Validation: frontend build passed, 9 existing browser scenarios plus 3 new geospatial/readability/loading scenarios passed; 7 backend tests passed with real PostGIS. New checks verify rendered river/labels, tooltip motion/Escape, camera reset, selected overview text contrast ≥4.5:1, skeleton geometry and reduced motion. Desktop/mobile and skeleton screenshots were visually reviewed. These are targeted accessibility checks, not a full WCAG conformance audit or a measured CLS guarantee.
 
-The MVP's data/ETL/PostGIS/API/five-page frontend, source metadata, real spatial analytics, loading/error/empty handling, automated tests, screenshots and local demo are implemented. Docker runtime verification is the outstanding Definition-of-Done item from `PROJECT_SPEC.md`.
+The MVP's data/ETL/PostGIS/API/five-page frontend, source metadata, real spatial analytics, loading/error/empty handling, automated tests, screenshots and local demo are implemented. Docker runtime verification is now complete on a fresh Linux CI runner, closing the outstanding Docker Definition-of-Done item from `PROJECT_SPEC.md`.
