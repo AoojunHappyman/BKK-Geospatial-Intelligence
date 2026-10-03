@@ -36,10 +36,60 @@ jobs:
       - run: |
           python scripts/run_api.py > /tmp/bkk-api.log 2>&1 &
           npm --prefix frontend run dev > /tmp/bkk-web.log 2>&1 &
-          for n in $(seq 1 30); do curl -fsS http://127.0.0.1:5173/ && break; sleep 2; done
+          python scripts/verify_deployment.py --url http://127.0.0.1:5173
           npm --prefix frontend test
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: browser-test-results
-          path: frontend/test-results
+          path: |
+            frontend/test-results
+            /tmp/bkk-api.log
+            /tmp/bkk-web.log
+
+  docker-fresh-checkout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      POSTGRES_PASSWORD: ci-ephemeral-only
+      COMPOSE_PROJECT_NAME: bkk-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      BASE_URL: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert no local runtime or environment files
+        run: |
+          for path in .runtime .local .cache .env frontend/node_modules; do
+            test ! -e "$path" || { echo "Unexpected local artifact: $path"; exit 1; }
+          done
+      - name: Start complete platform with one command
+        run: docker compose up --build -d
+      - name: Verify public deployment and all 50 districts
+        run: python3 scripts/verify_deployment.py
+      - name: Run backend and source reconciliation tests inside container
+        run: docker compose exec -T api python scripts/test_backend.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install browser test tools
+        working-directory: frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Run browser suite against Nginx and container API
+        run: npm --prefix frontend test
+      - name: Capture container status and logs
+        if: always()
+        run: |
+          docker compose ps -a > /tmp/bkk-compose-status.txt
+          docker compose logs --no-color > /tmp/bkk-compose.log 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: docker-verification
+          path: |
+            /tmp/bkk-compose-status.txt
+            /tmp/bkk-compose.log
+            frontend/test-results
+      - name: Remove ephemeral CI containers and database volume
+        if: always()
+        run: docker compose down -v
