@@ -9,7 +9,7 @@ if ($LASTEXITCODE -ne 0) {
   & $pgCtl -D $pgData -l "$projectRoot/.local/postgres.log" -o '-h 127.0.0.1 -p 55432' -w start
   if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL failed to start.' }
 }
-$env:DATABASE_URL = 'postgresql://bkk@127.0.0.1:55432/bkk'
+$env:DATABASE_URL = 'postgresql://bkk_api@127.0.0.1:55432/bkk'
 function Test-Endpoint([string]$url) {
   try { return (Invoke-WebRequest -UseBasicParsing -Uri $url -TimeoutSec 3).StatusCode -eq 200 } catch { return $false }
 }

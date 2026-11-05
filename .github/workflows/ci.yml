@@ -52,6 +52,7 @@ jobs:
     timeout-minutes: 20
     env:
       POSTGRES_PASSWORD: ci-ephemeral-only
+      API_DATABASE_PASSWORD: ci-api-ephemeral-only
       COMPOSE_PROJECT_NAME: bkk-ci-${{ github.run_id }}-${{ github.run_attempt }}
       BASE_URL: http://127.0.0.1:8080
     steps:

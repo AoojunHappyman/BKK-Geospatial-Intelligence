@@ -1,5 +1,6 @@
 services:
   db:
+    restart: unless-stopped
     image: postgis/postgis:17-3.5
     environment:
       POSTGRES_DB: bkk
@@ -13,21 +14,24 @@ services:
       timeout: 5s
       retries: 15
   etl:
+    restart: "no"
     build:
       context: .
       dockerfile: backend/Dockerfile
     environment:
       DATABASE_URL: postgresql://bkk:${POSTGRES_PASSWORD}@db:5432/bkk
-    command: ["python", "data-pipeline/pipeline.py"]
+      API_DATABASE_PASSWORD: ${API_DATABASE_PASSWORD:?Set API_DATABASE_PASSWORD in .env}
+    command: ["sh", "-c", "python data-pipeline/pipeline.py && python scripts/configure_api_role.py"]
     depends_on:
       db:
         condition: service_healthy
   api:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: backend/Dockerfile
     environment:
-      DATABASE_URL: postgresql://bkk:${POSTGRES_PASSWORD}@db:5432/bkk
+      DATABASE_URL: postgresql://bkk_api:${API_DATABASE_PASSWORD}@db:5432/bkk
     depends_on:
       etl:
         condition: service_completed_successfully
@@ -37,6 +41,7 @@ services:
       timeout: 5s
       retries: 10
   frontend:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: frontend/Dockerfile

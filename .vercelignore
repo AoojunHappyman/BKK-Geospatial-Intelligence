@@ -1,0 +1,16 @@
+.git
+.local
+.runtime
+.cache
+.venv
+.env
+.env.*
+data
+data-pipeline
+frontend/node_modules
+frontend/dist
+frontend/test-results
+frontend/playwright-report
+frontend/tests
+backend/tests
+docs/screenshots

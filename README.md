@@ -120,3 +120,16 @@ Browser tests ใช้ Microsoft Edge บน Windows; CI ใช้ Chromium ผ
 ![District comparison](docs/screenshots/compare.png)
 
 MVP ยังไม่มีข้อมูลย้อนหลังหลายปี, เวลาเดินตามโครงข่ายถนน, ความจุบริการ, ML หรือคะแนนรวมความน่าอยู่อาศัย การเปรียบเทียบมีไว้สำรวจหลักฐานและข้อจำกัด ไม่ได้ตัดสินว่าเขตใดดีที่สุด
+
+### Docker service recovery
+
+DB, API and frontend use `restart: unless-stopped`. Docker restarts these
+containers after process exit and when the Docker daemon starts again, unless
+they were explicitly stopped. Enable Docker startup on the deployment host.
+ETL uses `restart: "no"` because it is a one-time import job.
+
+Apply configuration changes with `docker compose up --build -d`.
+After an intentional stop, use `docker compose up -d` to start services again.
+Restart policies do not restart a running container merely because its health
+check becomes unhealthy. Monitor health separately; dependency readiness is
+checked during Compose startup, not every automatic container restart.
