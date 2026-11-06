@@ -2,6 +2,17 @@
 
 แพลตฟอร์มวิเคราะห์เมืองระดับ **50 เขตกรุงเทพมหานคร** ใช้ข้อมูลจริงจาก กทม., DOPA, กรมการขนส่งทางราง และ OpenStreetMap ผ่าน Python ETL, PostgreSQL/PostGIS, FastAPI และ React/TypeScript/MapLibre
 
+**เว็บไซต์:** [bkkgeo.vercel.app](https://bkkgeo.vercel.app/) · **ตรวจฐานข้อมูล:** [/api/health](https://bkkgeo.vercel.app/api/health)
+
+## สถานะการเผยแพร่
+
+- Deploy ขึ้น Production บน Vercel แล้ว และตั้งโดเมน `bkkgeo.vercel.app` พร้อม redirect จาก `bkk-geospatial-intelligence.vercel.app`
+- ฐานข้อมูลอยู่บน Neon PostgreSQL/PostGIS ภูมิภาค Singapore นำเข้าข้อมูลครบ 50 เขต และตรวจยอดประชากรรวม 5,422,568 คนแล้ว
+- API ใช้บัญชี `bkk_api` แยกจากบัญชีนำเข้าข้อมูล มีสิทธิ์อ่านตารางและตั้ง `default_transaction_read_only=on` ตรวจแล้วว่าไม่มีสิทธิ์เขียนตาราง `district` หรือสิทธิ์ superuser/สร้างฐานข้อมูล/สร้าง role
+- ใช้ Vercel Hobby และ Neon Free โดย ETL รันจากเครื่องผู้ดูแล ส่วนเว็บและ API อ่านข้อมูลที่นำเข้าไว้
+
+สถานะข้างต้นอ้างอิงการตั้งค่าและผลตรวจเมื่อ 7 พฤศจิกายน 2569 การ deploy สำเร็จยืนยันว่า build ผ่าน แต่ยังต้องตรวจ API และการแสดงข้อมูลบนโดเมนจริงตามขั้นตอนใน [คู่มือ Vercel + Neon](deploy/VERCEL.md)
+
 ![Overview](docs/screenshots/overview.png)
 
 ## ใช้งานอะไรได้
@@ -14,7 +25,7 @@
 
 เพิ่มเติมรายหน้า: Overview เลือก 6 กลุ่มเขตของ กทม. และสลับ Top/Bottom 5; Explorer จัดเรียงทุกคอลัมน์และส่งออก CSV ตามตัวกรอง/ลำดับตาราง; Profile มีค่าอ้างอิง กทม. พร้อมสูตร พีระมิดชาย–หญิงตามอายุจริง และคลิกสถานี/ศูนย์สุขภาพเพื่อเลื่อนแผนที่ไปยังจุดนั้น
 
-หลังอัปเดตจากรุ่นก่อน ให้รัน `python data-pipeline/pipeline.py` อีกครั้งเพื่อสร้างตารางและนำเข้าอายุแยกเพศ/กลุ่มเขต แล้วเริ่ม API ใหม่ Frontend ใช้ฟอนต์ Manrope และ IBM Plex Sans Thai จากไฟล์ที่ bundle ในแอป ไม่เรียก Google Fonts ตอนเปิดหน้า ใบอนุญาตอยู่ใน `frontend/public/licenses/`
+เมื่ออัปเดต schema หรือข้อมูล ให้รัน `python data-pipeline/pipeline.py` ด้วยบัญชีนำเข้าข้อมูล แล้วเริ่ม API ใหม่ตามสภาพแวดล้อมที่ใช้ Frontend ใช้ฟอนต์ Manrope และ IBM Plex Sans Thai จากไฟล์ที่ bundle ในแอป ไม่เรียก Google Fonts ตอนเปิดหน้า ใบอนุญาตอยู่ใน `frontend/public/licenses/`
 
 ### สำรวจต่อเนื่องและแชร์มุมมอง
 
@@ -62,6 +73,11 @@ python -m venv .venv
 pip install -r data-pipeline/requirements.txt
 $env:DATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:5432/bkk'
 python data-pipeline/pipeline.py
+# สร้างบัญชี API แบบอ่านอย่างเดียว (สำหรับ PostgreSQL ที่ดูแลเอง)
+$env:API_DATABASE_PASSWORD='REPLACE_WITH_A_DIFFERENT_URL_SAFE_PASSWORD'
+python scripts/configure_api_role.py
+# เปลี่ยนจากบัญชีนำเข้าข้อมูลเป็นบัญชี API ก่อนเริ่มบริการ
+$env:DATABASE_URL='postgresql://bkk_api:REPLACE_WITH_A_DIFFERENT_URL_SAFE_PASSWORD@127.0.0.1:5432/bkk'
 python scripts/run_api.py
 ```
 
@@ -81,11 +97,13 @@ npm run dev
 
 ```powershell
 Copy-Item .env.example .env
-# แก้ POSTGRES_PASSWORD ใน .env ใช้ค่าสุ่มที่ URL-safe
+# แก้ POSTGRES_PASSWORD และ API_DATABASE_PASSWORD ให้เป็นค่าสุ่ม URL-safe คนละค่า
 docker compose up --build -d
 ```
 
 เปิด <http://127.0.0.1:8080> ลำดับเริ่มคือ PostGIS → ETL → API → Nginx/Frontend ข้อมูล DB อยู่ใน named volume อย่าใช้ `down -v` หากต้องการเก็บข้อมูล
+
+DB, API และ frontend ใช้ `restart: unless-stopped` เพื่อเริ่มใหม่เมื่อโปรเซสหยุดหรือ Docker daemon กลับมาทำงาน ยกเว้นบริการที่ผู้ดูแลสั่งหยุดเอง ส่วน ETL ใช้ `restart: "no"` เพราะเป็นงานนำเข้าครั้งเดียว ต้องตั้งให้ Docker เริ่มพร้อมเครื่องด้วย restart policy ไม่เริ่ม container ใหม่เพียงเพราะ health check เป็น unhealthy หลังแก้ config ใช้ `docker compose up --build -d` ดูการเปิด HTTPS บนเซิร์ฟเวอร์ที่ดูแลเองใน [คู่มือ Deploy](deploy/README.md)
 
 **ผลการตรวจสอบ:** ทดสอบ Compose จริงจาก checkout ใหม่บน GitHub Actions (Ubuntu) แล้ว: เริ่มด้วยคำสั่งข้างต้น นำเข้าครบ 50 เขต ผ่าน backend tests 9 รายการและ browser tests 15 รายการ โดยไม่ใช้ runtime เดิมในเครื่อง Windows ดู [หลักฐานการทดสอบ](docs/verification.md)
 
@@ -111,6 +129,9 @@ Browser tests ใช้ Microsoft Edge บน Windows; CI ใช้ Chromium ผ
 | `database/` | schema, indexes, SQL aggregates, spatial query examples |
 | `backend/` | FastAPI และ integration tests |
 | `frontend/` | React, MapLibre และ browser tests |
+| `api/index.py`, `vercel.json` | จุดเข้า Python function และการ build/route บน Vercel |
+| [Vercel + Neon](deploy/VERCEL.md) | ตั้งค่า Production, บัญชีฐานข้อมูล และตรวจหลัง deploy |
+| [Docker deployment](deploy/README.md) | Deploy ด้วย Compose และ HTTPS สำหรับเซิร์ฟเวอร์ที่ดูแลเอง |
 | `docs/PROJECT_SPEC.md` | ข้อกำหนดฉบับเต็มจากผู้ใช้ |
 | [Architecture](docs/architecture.md) | ตารางฐานข้อมูลและ API |
 | [Methodology](docs/methodology.md) | สูตร นิยาม ข้อจำกัด |
@@ -120,16 +141,3 @@ Browser tests ใช้ Microsoft Edge บน Windows; CI ใช้ Chromium ผ
 ![District comparison](docs/screenshots/compare.png)
 
 MVP ยังไม่มีข้อมูลย้อนหลังหลายปี, เวลาเดินตามโครงข่ายถนน, ความจุบริการ, ML หรือคะแนนรวมความน่าอยู่อาศัย การเปรียบเทียบมีไว้สำรวจหลักฐานและข้อจำกัด ไม่ได้ตัดสินว่าเขตใดดีที่สุด
-
-### Docker service recovery
-
-DB, API and frontend use `restart: unless-stopped`. Docker restarts these
-containers after process exit and when the Docker daemon starts again, unless
-they were explicitly stopped. Enable Docker startup on the deployment host.
-ETL uses `restart: "no"` because it is a one-time import job.
-
-Apply configuration changes with `docker compose up --build -d`.
-After an intentional stop, use `docker compose up -d` to start services again.
-Restart policies do not restart a running container merely because its health
-check becomes unhealthy. Monitor health separately; dependency readiness is
-checked during Compose startup, not every automatic container restart.
