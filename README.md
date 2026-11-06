@@ -2,6 +2,8 @@
 
 แพลตฟอร์มวิเคราะห์เมืองระดับ **50 เขตกรุงเทพมหานคร** ใช้ข้อมูลจริงจาก กทม., DOPA, กรมการขนส่งทางราง และ OpenStreetMap ผ่าน Python ETL, PostgreSQL/PostGIS, FastAPI และ React/TypeScript/MapLibre
 
+[Built by Pattanachai Sawetbunchoed](https://aoojunhappyman.github.io/My-Profile/)
+
 **เว็บไซต์:** [bkkgeo.vercel.app](https://bkkgeo.vercel.app/) · **ตรวจฐานข้อมูล:** [/api/health](https://bkkgeo.vercel.app/api/health)
 
 ## สถานะการเผยแพร่
